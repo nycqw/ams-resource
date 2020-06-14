@@ -1,0 +1,49 @@
+server:
+  servlet:
+    context-path: /ams-resource
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: ams-resource
+  main:
+    allow-bean-definition-overriding: true
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+
+dubbo:
+  cloud:
+    subscribed-services: ams-resource
+  provider:
+    validation: true
+
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.21.201.103:9000
+        namespace: 7d639527-9455-4dd0-9f70-4a79160ac1f3
+        #server-addr: 127.0.0.1:8848
+        #namespace: 9beae486-9bf1-482c-9fbf-2ba89a257b6f
+        enabled: true
+        file-extension: yml
+      discovery:
+        enabled: true
+        register-enabled: true
+        #server-addr: 127.0.0.1:8848
+        #namespace: 7d639527-9455-4dd0-9f70-4a79160ac1f3
+        server-addr: 172.21.201.103:9000
+        namespace: 7d639527-9455-4dd0-9f70-4a79160ac1f3
